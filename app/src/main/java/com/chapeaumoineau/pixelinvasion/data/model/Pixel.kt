@@ -8,7 +8,7 @@ sealed class Pixel(val color: Int) {
     object Beta: Pixel(color = Color.RED)
     object Gamma: Pixel(color = Color.YELLOW)
     object Delta: Pixel(color = Color.GREEN)
-    object Epsilon: Pixel(color = Color.MAGENTA)
+    object Epsilon: Pixel(color = 0xFFFFA500.toInt())
     object Zeta: Pixel(color = Color.CYAN)
     object Theta: Pixel(color = Color.WHITE)
 

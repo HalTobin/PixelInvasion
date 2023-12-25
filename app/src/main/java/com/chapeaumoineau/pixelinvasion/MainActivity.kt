@@ -19,6 +19,8 @@ import androidx.navigation.compose.rememberNavController
 import com.chapeaumoineau.pixelinvasion.feature.game.GameScreen
 import com.chapeaumoineau.pixelinvasion.feature.game.GameViewModel
 import com.chapeaumoineau.pixelinvasion.feature.home.HomeScreen
+import com.chapeaumoineau.pixelinvasion.feature.settings.SettingsScreen
+import com.chapeaumoineau.pixelinvasion.feature.settings.SettingsViewModel
 import com.chapeaumoineau.pixelinvasion.ui.Screen
 import com.chapeaumoineau.pixelinvasion.ui.theme.PixelInvasionTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,6 +46,14 @@ class MainActivity : ComponentActivity() {
                             val state by viewModel.state.collectAsState()
                             GameScreen(
                                 navController = navController,
+                                state = state,
+                                onEvent = viewModel::onEvent
+                            )
+                        }
+                        composable(Screen.Settings.route) {
+                            val viewModel = hiltViewModel<SettingsViewModel>()
+                            val state by viewModel.state.collectAsState()
+                            SettingsScreen(
                                 state = state,
                                 onEvent = viewModel::onEvent
                             )
