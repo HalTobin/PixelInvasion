@@ -10,21 +10,32 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
-class GameViewModel @Inject constructor(
-
-): ViewModel() {
+class GameViewModel @Inject constructor(): ViewModel() {
 
     private val _state = MutableStateFlow(GameState())
     val state = _state.asStateFlow()
 
+    var currentPlayer = 0
+
     init {
-        _state.update { it.copy(map = Map.generateMap(_state.value.grid, _state.value.pixelNumber)) }
-        Log.i("MAP", "X size: ${_state.value.map.map.size}, Y size: ${_state.value.map.map[0].size}")
+        _state.update { it.copy(map = Map.generateMap(_state.value.grid, _state.value.pixelNumber), player = currentPlayer) }
+        _state.update { it.copy(playersPixels = _state.value.map.getPlayersPixel()) }
     }
 
     fun onEvent(event: GameEvent) {
         when (event) {
-            is GameEvent.PlayerAction -> _state.update { it.copy(map = _state.value.map.changeMap(event.player, event.pixel)) }
+            is GameEvent.PlayerAction -> {
+                if (event.player == currentPlayer) {
+                    currentPlayer = _state.value.nextPlayer()
+                    _state.update { it.copy(map = _state.value.map.changeMap(event.player, event.pixel)) }
+                    _state.update { it.copy(playersPixels = _state.value.map.getPlayersPixel(), player = currentPlayer) }
+                }
+                if (_state.value.map.isGameOver()) {
+                    val player0 = _state.value.map.getPlayerScore(0)
+                    val player1 = _state.value.map.getPlayerScore(1)
+                    _state.update { it.copy(endGame = EndGame(player0, player1)) }
+                }
+            }
         }
     }
 
