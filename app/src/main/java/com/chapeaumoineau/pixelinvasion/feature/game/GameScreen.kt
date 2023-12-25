@@ -35,7 +35,7 @@ fun GameScreen(
 
     Column(modifier = Modifier.fillMaxSize()) {
 
-        PlayerControls(player = 1, pixels = state.pixelSet, onClick = { pixel, player -> })
+        PlayerControls(player = 0, pixels = state.pixelSet, onClick = { pixel, player -> onEvent(GameEvent.PlayerAction(player, pixel)) })
         Divider(modifier = Modifier.fillMaxWidth())
 
         Canvas(modifier = Modifier.weight(1f).fillMaxWidth()) {
@@ -54,7 +54,7 @@ fun GameScreen(
         }
 
         Divider(modifier = Modifier.fillMaxWidth())
-        PlayerControls(player = 1, pixels = state.pixelSet, onClick = { pixel, player -> })
+        PlayerControls(player = 1, pixels = state.pixelSet, onClick = { pixel, player -> onEvent(GameEvent.PlayerAction(player, pixel)) })
 
     }
 

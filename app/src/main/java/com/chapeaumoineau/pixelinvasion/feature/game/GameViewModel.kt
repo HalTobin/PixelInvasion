@@ -24,7 +24,7 @@ class GameViewModel @Inject constructor(
 
     fun onEvent(event: GameEvent) {
         when (event) {
-
+            is GameEvent.PlayerAction -> _state.update { it.copy(map = _state.value.map.changeMap(event.player, event.pixel)) }
         }
     }
 

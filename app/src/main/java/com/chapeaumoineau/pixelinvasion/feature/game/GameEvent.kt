@@ -1,4 +1,7 @@
 package com.chapeaumoineau.pixelinvasion.feature.game
 
-class GameEvent {
+import com.chapeaumoineau.pixelinvasion.data.model.Pixel
+
+sealed class GameEvent {
+    data class PlayerAction(val player: Int, val pixel: Pixel): GameEvent()
 }
